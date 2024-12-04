@@ -1,72 +1,75 @@
-<style>
-body {
-    margin: 0;
-    overflow: hidden; /* Prevent scrollbars */
-    font-family: Arial, sans-serif;
-    color: white;
-}
+<head>
+    <link rel="stylesheet" href="test.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-#background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Push it behind everything else */
-    overflow: hidden; /* Prevent fractals from exceeding container */
-}
-
-#navigation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background-color: #3498db;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #1d6fa5;
-}
-
-canvas {
-    position: absolute;
-    /* Adjust positions for each canvas */
-}
-
-#SierpinskiTriangleCanvas {
-    top: 10%;
-    left: 5%;
-}
-
-#DragonCanvas {
-    bottom: 10%;
-    right: 5%;
-}
-</style>
-<div id="background">
+<!-- <div id="background">
     <canvas id="SierpinskiTriangleCanvas" width="600" height="600"></canvas>
     <canvas id="DragonCanvas" width="600" height="600"></canvas>
-</div>
-<div id="navigation">
-    <h1>Welcome to My Website</h1>
-    <p>Select a page to visit:</p>
-    <button onclick="location.href='Resume.pdf'">Resume</button>
-</div>
+</div> -->
+
+<body class="bg-stone-800 dark __className_a2f0a9">
+    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 relative bg-blue-400 bg-cover bg-center opacity-60 rounded-xl p-8">
+            <div class="relative">
+                <img class="object-cover object-center rounded z-10" alt="Dick" src="dick.png">
+            </div>
+        </div>
+
+        <div class="container mt-24 lg:flex-grow lg:pl-24 flex flex-col mb-16 items-center text-center">
+            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-stone-200">
+                Austin (Alyx) Russell
+            </h1>
+            <p class="mb-8 text-md leading-relaxed text-stone-400">
+                I am an incredibly passionate programmer who has worked on several
+                professional projects in the three years I have worked in the industry,
+                as well as several personal projects and school projects that I am
+                proud of.
+            </p>
+            <p class="mb-8 text-md leading-relaxed text-stone-400">
+                From AI development at ScriptSender llc., to developing my own AES-512 bit OCB
+                encryption API for Studio Kavod, I have experience in a multitude of skillsets 
+                and programming languages. On my own time, I have developed L-system based Fractal generations, 
+                my own AI application that gave recommendations based on spotify playlists, 
+                and websites such as my resume website and a website for the spotify AI application.
+            </p>
+            
+            <a href="Resume.pdf" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
+                Latest Resume
+            </a>
+
+        </div>
+
+        
+        
+    </div>
+    <section>
+        <div class="py-8 lg:py-16 mx-auto my-auto max-w-screen-xl px-4">
+            <h1 class="text-3xl font-medium tracking-tight leading-tight text-center text-stone-200 md:text-4xl">
+                10+ years of coding experience
+            </h1>
+            
+            <div class="flex flex-wrap justify-center my-4 lg:mb-16 w-sm md:w-3/4 mx-auto text-center text-stone-400">
+                <span class="text-sm font-medium me-2 mb-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+                    Java
+                </span>
+                <span class="text-sm font-medium me-2 mb-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+                    Python
+                </span>
+                <span class="text-sm font-medium me-2 mb-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+                    HTML
+                </span>
+                <span class="text-sm font-medium me-2 mb-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+                    C/C++
+                </span>
+                <span class="text-sm font-medium me-2 mb-2 px-2.5 py-0.5 rounded bg-blue-900 text-blue-300">
+                    Javascript
+                </span>
+            </div>
+        </div>
+    </section>
+</body>
+    
 <script>
     function generateLSystem(axiom, rules, iterations) {
         let result = axiom;
@@ -128,109 +131,109 @@ canvas {
     }
 
     function init(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
 
-    function drawRandomFractal() {
-            clearCanvas(canvas); // Clear canvas before drawing the new fractal
+        function drawRandomFractal() {
+                clearCanvas(canvas); // Clear canvas before drawing the new fractal
 
-            const fractals = [
-                // Sierpinski Triangle
-                {
-                    axiom: "F-G-G",
-                    rules: { "F": "F-G+F+G-F", "G": "GG" },
-                    length: 15,
-                    angle: 120,
-                    iterations: 4
-                },
-                // Dragon Fractal
-                {
-                    axiom: "F",
-                    rules: { "F": "F+G", "G": "F-G" },
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 10
-                },
-                // Square Stuff
-                {
-                    axiom: "F+F+F+F",
-                    rules: {"F": "FF+F-F+F+FF"},
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 3
-                },
-                // Triangles
-                {
-                    axiom: "F+F+F",
-                    rules: {"F": "F-F+F"},
-                    length: 7.5,
-                    angle: 120,
-                    iterations: 6
-                },
-                // Quadratic Gosper
-                {
-                    axiom: "-YF",
-                    rules: {"X": "XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-", "Y": "+FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY"},
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 2
-                },
-                // Snowflake
-                {
-                    axiom: "F+XF+F+XF",
-                    rules: {"X": "XF-F+F-XF+F+XF-F+F-X"},
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 3
-                },
-                // Peano Curve
-                {
-                    axiom: "X",
-                    rules: {"X": "XFYFX+F+YFXFY-F-XFYFX", "Y": "YFXFY-F-XFYFX+F+YFXFY"},
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 3
-                },
-                // Quadratic Snowflake
-                {
-                    axiom: "F",
-                    rules: {"F": "F-F+F+F-F"},
-                    length: 7.5,
-                    angle: 90,
-                    iterations: 3
-                },
-                //L-System Bush
-                {
-                    axiom: "VZFFF",
-                    rules: {"V": "[+++W][---W]YV", "W": "+X[-W]Z", "X": "-W[+X]Z", "Y": "YZ", "Z": "[-FFF][+FFF]F"},
-                    length: 7.5,
-                    angle: 20,
-                    iterations: 6
-                },
-                //Krishna Anklets
-                {
-                    axiom: "-X--X",
-                    rules: {"X": "XFX--XFX"},
-                    length: 7.5,
-                    angle: 45,
-                    iterations: 4
-                },
-                // Levy Curve
-                {
-                    axiom: "F",
-                    rules: {"F": "-F++F-"},
-                    length: 7.5,
-                    angle: 45,
-                    iterations: 8
-                },
-            ];
+                const fractals = [
+                    // Sierpinski Triangle
+                    {
+                        axiom: "F-G-G",
+                        rules: { "F": "F-G+F+G-F", "G": "GG" },
+                        length: 15,
+                        angle: 120,
+                        iterations: 4
+                    },
+                    // Dragon Fractal
+                    {
+                        axiom: "F",
+                        rules: { "F": "F+G", "G": "F-G" },
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 10
+                    },
+                    // Square Stuff
+                    {
+                        axiom: "F+F+F+F",
+                        rules: {"F": "FF+F-F+F+FF"},
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 3
+                    },
+                    // Triangles
+                    {
+                        axiom: "F+F+F",
+                        rules: {"F": "F-F+F"},
+                        length: 7.5,
+                        angle: 120,
+                        iterations: 6
+                    },
+                    // Quadratic Gosper
+                    {
+                        axiom: "-YF",
+                        rules: {"X": "XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-", "Y": "+FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY"},
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 2
+                    },
+                    // Snowflake
+                    {
+                        axiom: "F+XF+F+XF",
+                        rules: {"X": "XF-F+F-XF+F+XF-F+F-X"},
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 3
+                    },
+                    // Peano Curve
+                    {
+                        axiom: "X",
+                        rules: {"X": "XFYFX+F+YFXFY-F-XFYFX", "Y": "YFXFY-F-XFYFX+F+YFXFY"},
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 3
+                    },
+                    // Quadratic Snowflake
+                    {
+                        axiom: "F",
+                        rules: {"F": "F-F+F+F-F"},
+                        length: 7.5,
+                        angle: 90,
+                        iterations: 3
+                    },
+                    //L-System Bush
+                    {
+                        axiom: "VZFFF",
+                        rules: {"V": "[+++W][---W]YV", "W": "+X[-W]Z", "X": "-W[+X]Z", "Y": "YZ", "Z": "[-FFF][+FFF]F"},
+                        length: 7.5,
+                        angle: 20,
+                        iterations: 6
+                    },
+                    //Krishna Anklets
+                    {
+                        axiom: "-X--X",
+                        rules: {"X": "XFX--XFX"},
+                        length: 7.5,
+                        angle: 45,
+                        iterations: 4
+                    },
+                    // Levy Curve
+                    {
+                        axiom: "F",
+                        rules: {"F": "-F++F-"},
+                        length: 7.5,
+                        angle: 45,
+                        iterations: 8
+                    },
+                ];
 
-            const randomFractal = fractals[Math.floor(Math.random() * fractals.length)];
-            const commands = generateLSystem(randomFractal.axiom, randomFractal.rules, randomFractal.iterations);
-            drawLSystemSlowly(ctx, commands, randomFractal.length, randomFractal.angle, () => {
-                setTimeout(drawRandomFractal, 2000); // Automatically redraw after a delay
-            });
-        }
+                const randomFractal = fractals[Math.floor(Math.random() * fractals.length)];
+                const commands = generateLSystem(randomFractal.axiom, randomFractal.rules, randomFractal.iterations);
+                drawLSystemSlowly(ctx, commands, randomFractal.length, randomFractal.angle, () => {
+                    setTimeout(drawRandomFractal, 2000); // Automatically redraw after a delay
+                });
+            }
 
         drawRandomFractal(); // Start drawing
     }
