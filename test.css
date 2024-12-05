@@ -33,16 +33,26 @@ button:hover {
 }
 
 #background {
-    position: relative; /* Establish a positioning context for the canvases */
-    z-index: -1; /* Ensure the canvases are under all other content */
+    position: relative;
+    width: 100%; /* Ensure it spans the full width */
+    height: 600px; /* Match the canvas height */
+    display: flex;
+    flex-direction: column; /* Align children vertically */
+    justify-content: center; /* Center canvas and text */
+    align-items: center; /* Center canvas and text horizontally */
 }
 
-#background canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw; /* Full width of the viewport */
-    height: 100vh; /* Full height of the viewport */
-    z-index: -1; /* Push canvases behind other elements */
+#DragonCanvas {
+    display: block; /* Ensure the canvas behaves like a block element */
+    margin: 0 auto; /* Center canvas horizontally */
 }
+
+#background p {
+    text-align: center; /* Center the text inside the section */
+}
+
+div.py-8 {
+    margin-top: 20px; /* Add spacing between sections */
+}
+
 
