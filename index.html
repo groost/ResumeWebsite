@@ -118,21 +118,79 @@
         <!-- <canvas id="SierpinskiTriangleCanvas" width="600" height="600"></canvas> -->
         <canvas id="DragonCanvas" width="600" height="600"></canvas>
         <p class="py-8 lg:py-16 mx-auto my-auto max-w-screen-xl px-4">Fractal Generation</p>
+        
     </section>
 
     <div class="py-8 lg:py-16 mx-auto my-auto max-w-screen-xl px-4">
-        <h1 class="text-3xl font-medium tracking-tight leading-tight text-center text-stone-200 md:text-4xl">
-            Links to Contact Me:
-        </h1>
-        <a href="Resume.pdf" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
-            Latest Resume
-        </a>
-        <a href="" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
-            Email: amrussell00@gmail.com
-        </a>
-        <a href="" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
-            Phone Number: 561-371-5874
-        </a>
+        <h1>Text Encryption</h1>
+        <textarea id="encryptionText">Input encryption text here...</textarea>
+        <button id="encryptionButton">Encrypt Text</button>
+        <div class="output" id="encryptedOutput"></div>
+
+        <script>
+            class AESCharEncryptor {
+            constructor() {
+                this.encoder = new TextEncoder();
+                this.decoder = new TextDecoder();
+            }
+
+            async generateKey() {
+                // Generate a random 256-bit key
+                this.key = crypto.getRandomValues(new Uint8Array(32));
+                console.log("Key generated:", this.key);
+                return this.key;
+            }
+
+            async encryptToChars(text) {
+                if (!this.key) throw new Error("Key is not set. Call generateKey() first.");
+
+                const iv = crypto.getRandomValues(new Uint8Array(12)); // Generate a random 12-byte IV
+                const cryptoKey = await crypto.subtle.importKey(
+                    "raw",
+                    this.key,
+                    { name: "AES-GCM" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encrypted = await crypto.subtle.encrypt(
+                    {
+                        name: "AES-GCM",
+                        iv: iv
+                    },
+                    cryptoKey,
+                    this.encoder.encode(text)
+                );
+
+                // Convert encrypted data and IV to characters (base64 for readability)
+                const encryptedChars = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+                const ivChars = btoa(String.fromCharCode(...iv));
+
+                return {
+                    ivChars,
+                    encryptedChars
+                };
+            }
+        }
+
+        const encryptor = new AESCharEncryptor();
+
+        (async () => {
+            await encryptor.generateKey(); // Generate the key on page load
+
+            document.getElementById("encryptionButton").addEventListener("click", async () => {
+                const inputText = document.getElementById("encryptionText").value;
+                const encryptedData = await encryptor.encryptToChars(inputText);
+
+                // Display the encrypted result
+                const outputDiv = document.getElementById("encryptedOutput");
+                outputDiv.textContent = `
+    Encrypted IV: ${encryptedData.ivChars}
+    Encrypted Text: ${encryptedData.encryptedChars}
+                `.trim();
+            });
+        })();
+    </script>
     </div>
 
     <script>
@@ -310,5 +368,20 @@
         // drawLSystemSlowly(ctx, commands1, 10, 90);
     
     </script>
+    
+    <div class="py-8 lg:py-16 mx-auto my-auto max-w-screen-xl px-4">
+        <h1 class="text-3xl font-medium tracking-tight leading-tight text-center text-stone-200 md:text-4xl">
+            Links to Contact Me:
+        </h1>
+        <a href="Resume.pdf" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
+            Latest Resume
+        </a>
+        <a href="" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
+            Email: amrussell00@gmail.com
+        </a>
+        <a href="" class="px-6 py-2 mr-4 mb-4 transition uppercase bg-blue-500 border-2 border-blue-500 rounded-lg text-white hover:bg-orange-400 hover:border-orange-400 text-md">
+            Phone Number: 561-371-5874
+        </a>
+    </div>
 </body>
     

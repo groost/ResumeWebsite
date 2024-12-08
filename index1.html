@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .output {
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Encryption</h1>
+    <textarea id="encryptionText">Input encryption text here...</textarea>
+    <button id="encryptionButton">Encrypt Text</button>
+    <div class="output" id="encryptedOutput"></div>
+
+    <script>
+        class AESCharEncryptor {
+            constructor() {
+                this.encoder = new TextEncoder();
+                this.decoder = new TextDecoder();
+            }
+
+            async generateKey() {
+                // Generate a random 256-bit key
+                this.key = crypto.getRandomValues(new Uint8Array(32));
+                console.log("Key generated:", this.key);
+                return this.key;
+            }
+
+            async encryptToChars(text) {
+                if (!this.key) throw new Error("Key is not set. Call generateKey() first.");
+
+                const iv = crypto.getRandomValues(new Uint8Array(12)); // Generate a random 12-byte IV
+                const cryptoKey = await crypto.subtle.importKey(
+                    "raw",
+                    this.key,
+                    { name: "AES-GCM" },
+                    false,
+                    ["encrypt"]
+                );
+
+                const encrypted = await crypto.subtle.encrypt(
+                    {
+                        name: "AES-GCM",
+                        iv: iv
+                    },
+                    cryptoKey,
+                    this.encoder.encode(text)
+                );
+
+                // Convert encrypted data and IV to characters (base64 for readability)
+                const encryptedChars = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+                const ivChars = btoa(String.fromCharCode(...iv));
+
+                return {
+                    ivChars,
+                    encryptedChars
+                };
+            }
+        }
+
+        const encryptor = new AESCharEncryptor();
+
+        (async () => {
+            await encryptor.generateKey(); // Generate the key on page load
+
+            document.getElementById("encryptionButton").addEventListener("click", async () => {
+                const inputText = document.getElementById("encryptionText").value;
+                const encryptedData = await encryptor.encryptToChars(inputText);
+
+                // Display the encrypted result
+                const outputDiv = document.getElementById("encryptedOutput");
+                outputDiv.textContent = `
+Encrypted IV: ${encryptedData.ivChars}
+Encrypted Text: ${encryptedData.encryptedChars}
+                `.trim();
+            });
+        })();
+    </script>
+</body>
+</html>
